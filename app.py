@@ -2,10 +2,19 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 import cv2
 import numpy as np
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 
 from face_detector import check_face_requirements
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust this to specify allowed origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/api/verify-face")
 async def verify_face(file: UploadFile = File(...)):
